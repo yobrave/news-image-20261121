@@ -25,17 +25,30 @@
 
 ## 运行方式
 
-`main.py` 是评测入口：先校验源图（PNG 格式、≤1024×1024、≤1 MiB，均为赛事限制），再把与本脚本同目录的 `entry.png` 复制到环境变量 `MAKEFUN_OUTPUT_DIR` 指定的输出目录，写入 `<输出目录>/entry.png`，并用 sha256 复核复制结果。输出目录不存在时会连同父目录一起自动创建；未设置该环境变量时默认写入脚本旁的 `out/`。
+`main.py` 是评测入口，评测器会在仓库根目录运行它，然后从它写出的目录里取 `entry.png`：
 
 ```bash
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out python main.py
 ```
 
+它做三件事：
+
+1. **把关**：读 `entry.png` 的 PNG IHDR，拒掉非 PNG、超 1 MiB、超 1024×1024 的文件；
+2. **发布**：把 `entry.png` 逐字节写入 `MAKEFUN_OUTPUT_DIR/entry.png`（目录不存在就递归创建；
+   未设置该环境变量时默认写到脚本旁的 `out/`）——**不重新编码**，重编码会改掉裁判要看的字节；
+3. **复核**：复制后比对文件大小与 sha256，任一不符就以非零码退出并说明原因。
+
+成功时它打印一行 JSON，含输出路径、宽高、字节数和 sha256：
+
+```json
+{"published": "out\\entry.png", "width": 1024, "height": 1024, "bytes": 184828, "sha256": "9beec03f…"}
+```
+
 ## 文件结构
 
-- `entry.png` — 参赛图片本体（1024×1024）
+- `entry.png` — 参赛图片本体（1024×1024，184,828 B）
 - `main.py` — 评测入口脚本
-- `notes.md` — 当日新闻采集笔记（来源与要点）
+- `notes.md` — 当日新闻采集笔记（8 个源 + 45 条 Art index 图形提示）
 - `LICENSE` — MIT
 
 ---
