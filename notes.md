@@ -286,3 +286,13 @@ Icon vocabulary: `bridge` `blast` `chart_down` `chart_up` `candles` `vaccine`
 | Q28 | crossing | Shah | — | Two national flags at a Himalayan border bridge |
 | Q29 | plane | exercises | — | Chinese military aircraft over a Taiwan Strait radar map |
 | Q30 | globe | 2035 | rising | World map shading from a Christian majority to a Muslim majority |
+
+## Illustration method (final version)
+
+The six column illustrations in the published front page are AI-generated
+editorial artwork (FLUX.1-schnell, locally hosted), produced in a 1930s
+lithograph newspaper style matching the page's palette. Each banner was
+generated at 1536x512 and cropped to the 312x52 column slot. They are
+original generated images — no photographs, artwork, or characters owned by
+others were copied. All other page elements (masthead, headlines, charts,
+map, rules) are drawn programmatically with Pillow.
